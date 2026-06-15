@@ -8,5 +8,12 @@ class Employee extends Model
 {
     protected $table = 'employees';
     protected $primaryKey = 'EmployeeId';
-    protected $fillable = ['Name', 'Address', 'Age', 'Salary'];
+    protected $fillable = [
+        'EmployeeId',
+        'Name',
+        'Address',
+        'Age',
+        'Department',
+        'Salary'
+    ];
 }
