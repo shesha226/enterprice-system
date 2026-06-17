@@ -2,14 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Employee;
 use App\Repositories\Contracts\EmployeeRepositoryInterface;
-use App\Repositories\Eloquent\EmployeeRepository;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Exception;
-
 
 class EmployeeService
 {
@@ -19,12 +16,13 @@ class EmployeeService
     {
         $this->employeeRepository = $employeeRepository;
     }
+
     public function getAllEmployees()
     {
         try {
             return $this->employeeRepository->getAllEmployees();
         } catch (Exception $e) {
-            Log::error($e->getMessage());
+            Log::error('Error fetching all employees: ' . $e->getMessage());
             throw $e;
         }
     }
@@ -32,68 +30,78 @@ class EmployeeService
     public function getEmployeeById(int $id)
     {
         try {
-            $exsistingEmployee = $this->employeeRepository->getEmployeeById($id);
-            if (!$exsistingEmployee) {
+            $employee = $this->employeeRepository->getEmployeeById($id);
+            if (!$employee) {
                 throw new InvalidArgumentException('Employee not found.');
             }
-            return $exsistingEmployee;
+            return $employee;
         } catch (Exception $e) {
-            Log::error($e->getMessage());
+            Log::error("Error fetching employee ID {$id}: " . $e->getMessage());
             throw $e;
         }
     }
-
 
     public function createEmployee(array $data)
     {
         DB::beginTransaction();
         try {
-            $existingEmpolyee = $this->employeeRepository->getEmployeeById($data['EmployeeId'] ?? null);
-            if ($existingEmpolyee) {
+            $existingEmployee = $this->employeeRepository->getEmployeeById($data['EmployeeId'] ?? null);
+            if ($existingEmployee) {
                 throw new InvalidArgumentException('Employee with this ID already exists.');
             }
-            if ($data['Age'] < 18) {
+
+            if (isset($data['Age']) && $data['Age'] < 18) {
                 throw new InvalidArgumentException('Employee must be at least 18 years old.');
             }
+
             $employee = $this->employeeRepository->createEmployee($data);
             DB::commit();
             return $employee;
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error($e->getMessage());
+            Log::error('Error creating employee: ' . $e->getMessage());
             throw $e;
         }
     }
 
     public function updateEmployee($id, array $data)
     {
+        DB::beginTransaction();
         try {
-
             $employee = $this->employeeRepository->getEmployeeById($id);
             if (!$employee) {
                 throw new InvalidArgumentException('Employee not found.');
             }
+
             if (isset($data['Age']) && $data['Age'] < 18) {
                 throw new InvalidArgumentException('Employee must be at least 18 years old.');
             }
-            return $this->employeeRepository->updateEmployee($id, $data);
+
+            $updatedEmployee = $this->employeeRepository->updateEmployee($id, $data);
+            DB::commit();
+            return $updatedEmployee;
         } catch (Exception $e) {
-            Log::error($e->getMessage());
+            DB::rollBack();
+            Log::error("Error updating employee ID {$id}: " . $e->getMessage());
             throw $e;
         }
     }
 
     public function deleteEmployee($id)
     {
-
+        DB::beginTransaction();
         try {
-            $exsistingEmployee = $this->employeeRepository->getEmployeeById($id);
-            if (!$exsistingEmployee) {
+            $employee = $this->employeeRepository->getEmployeeById($id);
+            if (!$employee) {
                 throw new InvalidArgumentException('Employee not found.');
             }
-            return $this->employeeRepository->deleteEmployee($id);
+
+            $result = $this->employeeRepository->deleteEmployee($id);
+            DB::commit();
+            return $result;
         } catch (Exception $e) {
-            Log::error($e->getMessage());
+            DB::rollBack();
+            Log::error("Error deleting employee ID {$id}: " . $e->getMessage());
             throw $e;
         }
     }
