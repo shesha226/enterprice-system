@@ -27,7 +27,7 @@ class UserController extends Controller
         try {
             $this->userService->createUser($validateData);
 
-            return response()->json(['message' => 'User created successfully.'], 201);
+            return response()->json(['message' => 'User created successfully.', 'data' => $validateData], 201);
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => 'Error creating user.', 'errors' => $e->getMessage()], 422);
         } catch (\Exception $e) {
@@ -66,7 +66,7 @@ class UserController extends Controller
         ]);
         try {
             $this->userService->updateUser($id, $validatedata);
-            return response()->json(['message' => 'User updated successfully.'], 200);
+            return response()->json(['message' => 'User updated successfully.', 'data' => $validatedata], 200);
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => 'Error updating user.', 'errors' => $e->getMessage()], 404);
         } catch (\Exception $e) {
@@ -78,7 +78,7 @@ class UserController extends Controller
     {
         try {
             $this->userService->deleteUser($id);
-            return response()->json(['message' => 'User deleted successfully.'], 200);
+            return response()->json(['message' => 'User deleted successfully.', 'data' => ['id' => $id]], 200);
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => 'Error deleting user.', 'errors' => $e->getMessage()], 404);
         } catch (\Exception $e) {
