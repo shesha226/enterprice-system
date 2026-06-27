@@ -14,12 +14,12 @@ class ProductController extends Controller
     {
         $this->productService = $productService;
     }
-    public function index()
+    public function getAllProducts()
     {
         try {
             $product = $this->productService->getAllProducts();
             return response()->json($product, 200);
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching products.', 'errors' => $e->getMessage()], 500);
@@ -29,7 +29,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function CreateProduct(Request $request)
     {
         $validateData = $request->validate([
             'ProductId'   => 'required|integer',
@@ -52,7 +52,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function getProductById(string $id)
     {
         try {
             $product = $this->productService->getProductById($id);
@@ -67,7 +67,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateProduct(Request $request, string $id)
     {
         $validateData = $request->validate([
             'Name'        => 'string|max:255',
@@ -89,7 +89,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function deleteProduct(string $id)
     {
         try {
             $this->productService->deleteProduct($id);

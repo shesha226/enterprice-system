@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -21,3 +22,9 @@ Route::post('/users', [UserController::class, 'createUser']);
 Route::get('/users/{id}', [UserController::class, 'getUserById']);
 Route::put('/users/{id}', [UserController::class, 'updateUser']);
 Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
+
+Route::get('/products', [ProductController::class, 'getAllProducts']);
+Route::post('/products', [ProductController::class, 'CreateProduct']);
+Route::get('/products/{id}', [ProductController::class, 'getProductById']);
+Route::put('/products/{id}', [ProductController::class, 'updateProduct']);
+Route::delete('/products/{id}', [ProductController::class, 'deleteProduct']);

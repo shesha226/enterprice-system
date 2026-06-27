@@ -21,8 +21,16 @@ class ProductService
     public function getAllProducts()
     {
         try {
-            return $this->productRepository->getAllProducts();
-        } catch (Exception $e) {
+            $products = $this->productRepository->getAllProducts();
+
+            if (empty($products) || $products->isEmpty()) {
+                throw new \InvalidArgumentException('No products found in the database.');
+            }
+
+            return $products;
+        } catch (\InvalidArgumentException $e) {
+            throw $e;
+        } catch (\Exception $e) {
             Log::error('Error fetching all products: ' . $e->getMessage());
             throw $e;
         }
@@ -44,17 +52,23 @@ class ProductService
     public function createProduct(array $data)
     {
         try {
-            $product = $this->productRepository->createProduct($data);
-            if ($product) {
-                throw new InvalidArgumentException('product with this ID already exists.');
+            $exsistingProduct = $this->productRepository->getProductById($data['ProductId']);
+            if ($exsistingProduct) {
+                throw new InvalidArgumentException('Product with the given ID already exists.');
             }
+
+            $product = $this->productRepository->createProduct($data);
+
+            if (!$product) {
+                throw new InvalidArgumentException('Failed to create product.');
+            }
+
             return $product;
         } catch (Exception $e) {
             Log::error('Error creating product: ' . $e->getMessage());
             throw $e;
         }
     }
-
     public function updateProduct(int $id, array $data)
     {
         try {
