@@ -3,7 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Sale;
-use App\Repositories\Contracts\SaleRepositoryInterface;
+use App\Http\Repositories\Contracts\SaleRepositoryInterface;
 
 
 class SaleRepository implements SaleRepositoryInterface
