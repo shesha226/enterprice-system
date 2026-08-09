@@ -18,8 +18,9 @@ class UserController extends Controller
     public function createUser(Request $request)
     {
         $validateData = $request->validate([
-            'UserId'   => 'required|integer',
+            'UserId'   => 'required|integer|unique:users,UserId',
             'Name'     => 'required|string|max:255',
+            'email'    => 'required|string|email|max:255|unique:users,email',
             'Role'     => 'required|string|in:Admin,Cashier,Manager',
             'Password' => 'required|string|min:6',
         ]);

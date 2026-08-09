@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\Contracts\App\Http\Repositories\Contracts\SaleRepositoryInterface;
+use App\Http\Repositories\Contracts\SaleRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;

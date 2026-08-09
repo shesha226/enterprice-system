@@ -7,6 +7,12 @@ use App\Repositories\Contracts\EmployeeRepositoryInterface;
 use App\Repositories\Eloquent\EmployeeRepository;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Repositories\Eloquent\UserRepository;
+use App\Repositories\Contracts\ProductRepositoryInterface;
+use App\Repositories\Eloquent\ProductRepository;
+use App\Http\Repositories\Contracts\SaleRepositoryInterface;
+use App\Repositories\Eloquent\SaleRepository;
+use App\Repositories\Contracts\AttendanceRepositoryInterface;
+use App\Repositories\Eloquent\AttendanceRepository;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -29,8 +35,18 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            \App\Repositories\Contracts\ProductRepositoryInterface::class,
-            \App\Repositories\Eloquent\ProductRepository::class
+            ProductRepositoryInterface::class,
+            ProductRepository::class
+        );
+
+        $this->app->bind(
+            SaleRepositoryInterface::class,
+            SaleRepository::class
+        );
+
+        $this->app->bind(
+            AttendanceRepositoryInterface::class,
+            AttendanceRepository::class
         );
     }
 

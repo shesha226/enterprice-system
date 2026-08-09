@@ -11,28 +11,27 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    // 1. Primary Key එක 'id' නෙවෙයි 'UserId' කියලා Laravel එකට කියන්න
     protected $primaryKey = 'UserId';
+    public $incrementing = false;
 
-    // 2. Postman එකෙන් එවන නිවැරදි කැපිටල් අකුරු සහිත නම් ටික මෙතනට දාන්න
     protected $fillable = [
-        'UserId',
-        'Name',
-        'Role',
-        'Password',
+        'name',
+        'email',
+        'role',
+        'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     */
     protected $hidden = [
         'Password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     */
+
+    public function getAuthPassword()
+    {
+        return $this->Password;
+    }
+
     protected function casts(): array
     {
         return [
