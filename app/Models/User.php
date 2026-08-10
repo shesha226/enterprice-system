@@ -22,14 +22,14 @@ class User extends Authenticatable
     ];
 
     protected $hidden = [
-        'Password',
+        'password',
         'remember_token',
     ];
 
 
     public function getAuthPassword()
     {
-        return $this->Password;
+        return $this->password;
     }
 
     protected function casts(): array

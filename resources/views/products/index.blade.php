@@ -1,50 +1,64 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Product Inventory Management') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="p-6 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+@section('header')
+<h2 class="text-xl font-bold leading-tight text-gray-800">
+    Products Management
+</h2>
+@endsection
 
-                <!-- Add Product Button -->
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-bold">All Products List</h3>
-                    <button class="px-4 py-2 font-bold text-white bg-blue-600 rounded hover:bg-blue-700">
-                        + Add New Product
-                    </button>
-                </div>
+@section('content')
+<div class="min-h-screen py-8 bg-gray-50/50">
+    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 
-                <!-- Product Table -->
-                <table class="min-w-full border divide-y divide-gray-200">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="px-4 py-2 text-left">Product ID</th>
-                            <th class="px-4 py-2 text-left">Name</th>
-                            <th class="px-4 py-2 text-left">Stock</th>
-                            <th class="px-4 py-2 text-left">Price</th>
-                            <th class="px-4 py-2 text-left">Supplier Info</th>
-                            <th class="px-4 py-2 text-center">Actions</th>
+        <!-- Header & Action Bar -->
+        <div class="flex flex-col justify-between gap-4 p-6 mb-8 bg-white border border-gray-100 shadow-sm sm:flex-row sm:items-center rounded-2xl">
+            <div>
+                <h3 class="text-xl font-bold text-gray-900">All Products List</h3>
+                <p class="text-sm text-gray-500 mt-0.5">Manage inventory, pricing, and suppliers</p>
+            </div>
+            <button class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-xl shadow-sm transition-all duration-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Add New Product
+            </button>
+        </div>
+
+        <!-- Product Table Container -->
+        <div class="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-2xl">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-xs font-semibold tracking-wider text-gray-500 uppercase border-b border-gray-100 bg-gray-50/50">
+                            <th class="px-6 py-4">Product ID</th>
+                            <th class="px-6 py-4">Name</th>
+                            <th class="px-6 py-4">Stock</th>
+                            <th class="px-6 py-4">Price</th>
+                            <th class="px-6 py-4">Supplier Info</th>
+                            <th class="px-6 py-4 text-center">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-4 py-2 font-bold">PRD-001</td>
-                            <td class="px-4 py-2">Wireless Mouse</td>
-                            <td class="px-4 py-2"><span class="px-2 py-1 text-sm text-green-800 bg-green-100 rounded">45 units</span></td>
-                            <td class="px-4 py-2">$15.00</td>
-                            <td class="px-4 py-2">TechSupplies Ltd</td>
-                            <td class="px-4 py-2 text-center">
-                                <button class="text-blue-600 hover:underline me-2">Edit</button>
-                                <button class="text-red-600 hover:underline">Delete</button>
+                    <tbody class="text-sm divide-y divide-gray-100">
+                        <tr class="transition-colors duration-150 hover:bg-gray-50/50">
+                            <td class="px-6 py-4 font-mono font-semibold text-gray-900">PRD-001</td>
+                            <td class="px-6 py-4 font-medium text-gray-900">Wireless Mouse</td>
+                            <td class="px-6 py-4">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    45 units
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 font-semibold text-gray-900">$15.00</td>
+                            <td class="px-6 py-4 text-gray-500">TechSupplies Ltd</td>
+                            <td class="px-6 py-4 space-x-2 text-center">
+                                <button class="px-3 py-1.5 text-xs font-medium text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">Edit</button>
+                                <button class="px-3 py-1.5 text-xs font-medium text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 rounded-lg transition-colors">Delete</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-
             </div>
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection
