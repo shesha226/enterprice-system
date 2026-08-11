@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductWebController;
 use App\Http\Controllers\UserWebController;
 use App\Http\Controllers\EmployeeWebController;
 use App\Http\Controllers\AttendanceWebController;
+use App\Http\Controllers\SalesWebController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserWebController::class);
     Route::resource('employees', EmployeeWebController::class);
     Route::resource('attendance', AttendanceWebController::class);
+    Route::resource('sales', SalesWebController::class);
 });
 
 require __DIR__ . '/auth.php';
